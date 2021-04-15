@@ -11,8 +11,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-
-<AnchorPane prefHeight="325.0" prefWidth="431.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1">
+<AnchorPane prefHeight="325.0" prefWidth="431.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.viewsandcontrollers.main.MainStageController">
    <children>
       <VBox prefHeight="363.0" prefWidth="469.0" AnchorPane.leftAnchor="0.0">
          <children>
@@ -29,7 +28,7 @@
                   </VBox>
                </children>
             </TextFlow>
-            <TableView prefHeight="243.0" prefWidth="469.0">
+            <TableView fx:id="tabla" prefHeight="243.0" prefWidth="469.0">
               <columns>
                 <TableColumn prefWidth="111.0" text="Titulo" />
                 <TableColumn prefWidth="67.0" text="ISBN" />
