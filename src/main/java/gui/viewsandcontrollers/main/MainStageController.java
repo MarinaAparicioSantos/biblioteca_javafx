@@ -13,9 +13,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import negocio.model.Genero;
 import negocio.model.Libro;
 
 public class MainStageController {
@@ -37,11 +40,27 @@ public class MainStageController {
 
 	@FXML
 	private TableView tabla;
+	
+	@FXML
+    private TableColumn<Libro, String> titulo;
+    @FXML
+    private TableColumn<Libro, String> isbn;
+    @FXML
+    private TableColumn<Libro, Genero> genero;
+    @FXML
+    private TableColumn<Libro, String> autor;
+    @FXML
+    private TableColumn<Libro, Integer> paginas;
+	
 
 	public void initialize() {
 	
-		  List<Libro> table = new ArrayList<Libro>();
-		  ObservableList<Libro> observableList = FXCollections.observableList(table);
+		titulo.setCellValueFactory(new PropertyValueFactory<Libro, String>("El principito"));
+		isbn.setCellValueFactory(new PropertyValueFactory<Libro, String>("fgrsd"));
+		//genero.setCellValueFactory(new PropertyValueFactory<Libro, String>("El principito"));
+		autor.setCellValueFactory(new PropertyValueFactory<Libro, String>("alguien"));
+		//paginas.setCellFactory(new PropertyValueFactory<Libro, String>("El principito"));
+
 	}
 
 	@FXML
@@ -79,5 +98,12 @@ public class MainStageController {
 	void salvar(ActionEvent event) {
 
 	}
+	
+	@FXML
+	void anadirElementos(ActionEvent event) {
+		
 
+		
+
+	}
 }

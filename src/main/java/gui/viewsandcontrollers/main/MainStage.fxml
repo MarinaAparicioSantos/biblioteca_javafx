@@ -28,7 +28,7 @@
                   </VBox>
                </children>
             </TextFlow>
-            <TableView fx:id="tabla" prefHeight="243.0" prefWidth="469.0">
+            <TableView fx:id="tabla" onSort="#anadirElementos" prefHeight="243.0" prefWidth="469.0">
               <columns>
                 <TableColumn prefWidth="111.0" text="Titulo" />
                 <TableColumn prefWidth="67.0" text="ISBN" />
