@@ -14,7 +14,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.viewsandcontrollers.form.LibroFormController">
    <children>
       <VBox prefHeight="83.0" prefWidth="609.0">
@@ -52,7 +51,7 @@
             <TextField fx:id="isbn" onAction="#añadirisbn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="autor" onAction="#añadirautor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="paginas" onAction="#añadirpaginas" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ChoiceBox fx:id="genero" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="generoBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <HBox alignment="CENTER" prefHeight="101.0" prefWidth="601.0">

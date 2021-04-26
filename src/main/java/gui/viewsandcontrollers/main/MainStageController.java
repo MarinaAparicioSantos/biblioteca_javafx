@@ -1,14 +1,15 @@
 package gui.viewsandcontrollers.main;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,7 +22,7 @@ import javafx.stage.Stage;
 import negocio.model.Genero;
 import negocio.model.Libro;
 
-public class MainStageController {
+public class MainStageController implements Initializable {
 
 	@FXML
 	private Button nuevo;
@@ -39,7 +40,7 @@ public class MainStageController {
 	private Button cargar;
 
 	@FXML
-	private TableView tabla;
+	private TableView <Libro> tabla;
 	
 	@FXML
     private TableColumn<Libro, String> titulo;
@@ -51,17 +52,25 @@ public class MainStageController {
     private TableColumn<Libro, String> autor;
     @FXML
     private TableColumn<Libro, Integer> paginas;
+    
+    
 	
 
-	public void initialize() {
-	
-		titulo.setCellValueFactory(new PropertyValueFactory<Libro, String>("El principito"));
-		isbn.setCellValueFactory(new PropertyValueFactory<Libro, String>("fgrsd"));
-		//genero.setCellValueFactory(new PropertyValueFactory<Libro, String>("El principito"));
-		autor.setCellValueFactory(new PropertyValueFactory<Libro, String>("alguien"));
-		//paginas.setCellFactory(new PropertyValueFactory<Libro, String>("El principito"));
-
+	public void initialize(URL location, ResourceBundle resources) {
+		
+		this.titulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+		this.isbn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+		this.genero.setCellValueFactory(new PropertyValueFactory<>("genero"));
+		this.autor.setCellValueFactory(new PropertyValueFactory<>("autor"));
+		this.paginas.setCellValueFactory(new PropertyValueFactory<>("paginas"));
+		
+		tabla.setItems(libros);
 	}
+	
+			ObservableList<Libro> libros= FXCollections.observableArrayList(
+    		new Libro("El Principito", "43554", Genero.NOVELA, "alguien", 100),
+    		new Libro("bajo la misma estrella", "jijiui", Genero.FICCION, "alguien2", 200)
+    		);
 
 	@FXML
 	void cargar(ActionEvent event) {
@@ -96,14 +105,9 @@ public class MainStageController {
 
 	@FXML
 	void salvar(ActionEvent event) {
+		
+		
 
 	}
 	
-	@FXML
-	void anadirElementos(ActionEvent event) {
-		
-
-		
-
-	}
 }

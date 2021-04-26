@@ -28,13 +28,13 @@
                   </VBox>
                </children>
             </TextFlow>
-            <TableView fx:id="tabla" onSort="#anadirElementos" prefHeight="243.0" prefWidth="469.0">
+            <TableView fx:id="tabla" prefHeight="243.0" prefWidth="469.0">
               <columns>
-                <TableColumn prefWidth="111.0" text="Titulo" />
-                <TableColumn prefWidth="67.0" text="ISBN" />
-                  <TableColumn prefWidth="75.0" text="Autor" />
-                  <TableColumn prefWidth="72.0" text="Género" />
-                  <TableColumn prefWidth="87.0" text="Páginas" />
+                <TableColumn fx:id="titulo" prefWidth="111.0" text="Titulo" />
+                <TableColumn fx:id="isbn" prefWidth="67.0" text="ISBN" />
+                  <TableColumn fx:id="autor" prefWidth="75.0" text="Autor" />
+                  <TableColumn fx:id="genero" prefWidth="72.0" text="Género" />
+                  <TableColumn fx:id="paginas" prefWidth="87.0" text="Páginas" />
               </columns>
             </TableView>
             <HBox alignment="CENTER" prefHeight="69.0" prefWidth="469.0">
