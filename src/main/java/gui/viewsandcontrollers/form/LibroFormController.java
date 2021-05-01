@@ -27,9 +27,8 @@ public class LibroFormController implements Initializable{
     private TextField paginas;
 
     @FXML
-    private ChoiceBox<Genero> generoBox;
+    private ChoiceBox<String> generoBox;
     
-    Genero genero = (Genero) new Object();
 
     @FXML
     private Button guardar;
@@ -58,10 +57,12 @@ public class LibroFormController implements Initializable{
     void guardar(ActionEvent event) {
 
     }
+    
+    private String[] generos = {"NOVELA", "FICCION", "POESIA"};
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		generoBox.getItems().getClass();
+		generoBox.getItems().addAll(generos);
 		
 	}
 
