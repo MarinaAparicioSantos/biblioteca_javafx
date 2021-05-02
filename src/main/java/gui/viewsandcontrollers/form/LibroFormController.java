@@ -4,6 +4,8 @@ package gui.viewsandcontrollers.form;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.viewsandcontrollers.form.viewmodel.LibroConverter;
+import gui.viewsandcontrollers.form.viewmodel.LibroViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import negocio.model.Genero;
+import negocio.model.Libro;
 
 public class LibroFormController implements Initializable{
 
@@ -32,6 +35,25 @@ public class LibroFormController implements Initializable{
 
     @FXML
     private Button guardar;
+    
+    private LibroViewModel viewModel = new LibroViewModel();
+    
+    private String action;
+    
+    private static final String NUEVO = "new";
+    private static final String EDITAR = "edit";
+    
+    
+    public LibroFormController() {
+    	
+    	super();
+    	this.action=NUEVO;
+    }
+    
+    public LibroFormController(Libro libro) {
+    	this.action=EDITAR;
+    	viewModel = LibroConverter.toLibroVM(libro);
+    }
 
     @FXML
     void añadirTitulo(ActionEvent event) {

@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.util.Pair;
 import negocio.BibliotecaService;
+import negocio.impl.BibliotecaImpl;
 import negocio.model.Genero;
 
 public class LibroViewModel {
@@ -18,13 +19,13 @@ public class LibroViewModel {
 	private final ObjectProperty<Pair<String, String>> genero = new SimpleObjectProperty<Pair<String, String>>();
 	private final IntegerProperty paginas = new SimpleIntegerProperty();
 	
-	private final BibliotecaService negocio = BibliotecaImpl.getInstance();
+	//private final BibliotecaService negocio = BibliotecaImpl.getInstance();
 	
 	public LibroViewModel() {
 		genero.setValue(new Pair<String,String>(Genero.NOVELA.toString(), Genero.NOVELA.toString() ));
 	}
 	
-	public LibroViewModel(String titulo, String isbn, String genero, String autor, Integer paginas) {
+	public LibroViewModel(String titulo, String isbn, String genero, String autor, int paginas) {
 		setAutor(autor);
 		setTitulo(titulo);
 		setIsbn(isbn);
@@ -71,7 +72,7 @@ public class LibroViewModel {
 	
 	
 	
-	public Object getGenero() {
+	public Pair<String, String> getGenero() {
 		return genero.get();
 	}
 
