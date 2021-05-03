@@ -19,7 +19,7 @@ public class LibroViewModel {
 	private final ObjectProperty<Pair<String, String>> genero = new SimpleObjectProperty<Pair<String, String>>();
 	private final IntegerProperty paginas = new SimpleIntegerProperty();
 	
-	//private final BibliotecaService negocio = BibliotecaImpl.getInstance();
+	private final BibliotecaService negocio = BibliotecaImpl.getInstance();
 	
 	public LibroViewModel() {
 		genero.setValue(new Pair<String,String>(Genero.NOVELA.toString(), Genero.NOVELA.toString() ));
