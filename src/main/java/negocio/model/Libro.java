@@ -1,12 +1,18 @@
 package negocio.model;
 
-public class Libro{
+import java.util.Comparator;
+
+import javafx.beans.property.SimpleStringProperty;
+
+public class Libro {
 
 	private String titulo;
 	private String isbn;
 	private Genero genero;
 	private String autor;
 	private Integer paginas;
+
+	// DECLARAC. MÉTODO CONSTRUCTOR
 
 	public Libro() {
 
@@ -24,84 +30,86 @@ public class Libro{
 	/**
 	 * @return the titulo
 	 */
-	public String getTitulo() {
+	public final String getTitulo() {
 		return titulo;
 	}
 
 	/**
 	 * @param titulo the titulo to set
 	 */
-	public void setTitulo(String titulo) {
+	public final void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
 
 	/**
 	 * @return the isbn
 	 */
-	public String getIsbn() {
+	public final String getIsbn() {
 		return isbn;
 	}
 
 	/**
 	 * @param isbn the isbn to set
 	 */
-	public void setIsbn(String isbn) {
+	public final void setIsbn(String isbn) {
 		this.isbn = isbn;
 	}
 
 	/**
 	 * @return the genero
 	 */
-	public Genero getGenero() {
+	public final Genero getGenero() {
 		return genero;
 	}
 
 	/**
 	 * @param genero the genero to set
 	 */
-	public void setGenero(Genero genero) {
+	public final void setGenero(Genero genero) {
 		this.genero = genero;
 	}
 
 	/**
 	 * @return the autor
 	 */
-	public String getAutor() {
+	public final String getAutor() {
 		return autor;
 	}
 
 	/**
 	 * @param autor the autor to set
 	 */
-	public void setAutor(String autor) {
+	public final void setAutor(String autor) {
 		this.autor = autor;
 	}
 
 	/**
 	 * @return the paginas
 	 */
-	public Integer getPaginas() {
+	public final Integer getPaginas() {
 		return paginas;
 	}
 
 	/**
 	 * @param paginas the paginas to set
 	 */
-	public void setPaginas(Integer paginas) {
+	public final void setPaginas(Integer paginas) {
 		this.paginas = paginas;
 	}
+	
+	public boolean equals(Object o) {
 
-	@Override
-	/**Metodo toString de la clase Libro que muestra los datos de los libros.
-	 * @return retorno
-	 */
-	public String toString() {
-		String retorno;
-		retorno = "Titulo: " + titulo + "\n";
-		retorno = retorno + "isbn: " + isbn + "\n";
-		retorno = retorno + "Genero: " + genero + "\n";
-		retorno = retorno + "Autor: " + autor + "\n";
-		retorno = retorno + "Paginas: " + paginas + "\n";
-		return retorno;
-	}
+        Libro l = (Libro) o;
+        boolean b = false;
+
+        if (this == o)
+            b = true;
+
+        else if (this.isbn.equals(l.isbn))
+            b = true;
+
+        return b;
+    }
+
+
 }

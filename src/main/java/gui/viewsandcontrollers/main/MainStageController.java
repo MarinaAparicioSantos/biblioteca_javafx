@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import gui.Notifications;
+import gui.viewsandcontrollers.form.LibroFormController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -63,13 +65,15 @@ public class MainStageController implements Initializable {
     
     private StringProperty texto = new SimpleStringProperty();
     
-    private BibliotecaImpl programa = BibliotecaImpl.getInstance();
+    private BibliotecaImpl negocio = BibliotecaImpl.getInstance();
     
-    ObservableList<Libro> lista;
+    ObservableList<Libro> lista;    
 	
 
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		lista = FXCollections.observableArrayList(negocio.getCatalogo());
+		tabla.setItems(lista);
 //		libros.getItems().addAll(programa.getLibros());
 		
 		this.titulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
@@ -78,25 +82,22 @@ public class MainStageController implements Initializable {
 		this.autor.setCellValueFactory(new PropertyValueFactory<>("autor"));
 		this.paginas.setCellValueFactory(new PropertyValueFactory<>("paginas"));
 		
-		tabla.setItems(libros);
+		tabla.setItems(lista);
 		
-//		editar.disabledProperty().bind(
-//				tabla.getSelectionModel().selectedItemProperty().isNull()
-//			);
-//		
-//		eliminar.disabledProperty().bind(
-//				tabla.getSelectionModel().selectedItemProperty().isNull());
+		editar.disableProperty().bind(tabla.getSelectionModel().selectedItemProperty().isNull());
+		
+		eliminar.disableProperty().bind(tabla.getSelectionModel().selectedItemProperty().isNull());
+		
+		Notifications.subscribe(Notifications.CATALOGO_UPDATED, this, this::actualizar);
+		
+		
 	}
 	
-			ObservableList<Libro> libros= FXCollections.observableArrayList(
-    		new Libro("El Principito", "43554", Genero.NOVELA, "alguien", 100),
-    		new Libro("bajo la misma estrella", "jijiui", Genero.FICCION, "alguien2", 200),
-    		new Libro("Los inmortales", "jifergfgjiui", Genero.POESIA, "alguien3", 4324)
-    		);
+			
 			
 			
 		private void actualizar(String event) {
-			lista = FXCollections.observableArrayList(negocio.getLibros());
+			lista = FXCollections.observableArrayList(negocio.getCatalogo());
 			tabla.setItems(lista);
 			tabla.refresh();
 		}
@@ -110,7 +111,9 @@ public class MainStageController implements Initializable {
 		dialog.setContentText("Introduce el nombre del fichero a cargar");
 		Optional<String> resultado = dialog.showAndWait();
 		if(resultado.isPresent()) {
-			negocio.cargar(resultado.get());
+			negocio.cargarXML(resultado.get());
+            Notifications.publish(Notifications.CATALOGO_UPDATED);
+            System.out.println("-- Cargado XML");
 			actualizar("Actualizacion manual");
 		}
 	}
@@ -123,25 +126,50 @@ public class MainStageController implements Initializable {
 			
 			abrirFormulario(event, tabla.getSelectionModel().getSelectedItem());
 		}
-
+		
+		
+ 
+			
 	}
 
 	
 	private void abrirFormulario(ActionEvent event, Libro libro) throws IOException {
 		
 
-		Stage dialog = new Stage();
-		Node source = (Node) event.getSource();
-		Stage parent = (Stage) source.getScene().getWindow();
-
-		dialog.initOwner(parent);
-		dialog.initModality(Modality.APPLICATION_MODAL);
-		Parent root = FXMLLoader.load(getClass().getResource("../form/LibroForm.fxml"));
-		Scene scene = new Scene(root);
-		dialog.setScene(scene);
-		dialog.show();
+//		Stage dialog = new Stage();
+//		Node source = (Node) event.getSource();
+//		Stage parent = (Stage) source.getScene().getWindow();
+//
+//		dialog.initOwner(parent);
+//		dialog.initModality(Modality.APPLICATION_MODAL);
+//		Parent root = FXMLLoader.load(getClass().getResource("../form/LibroForm.fxml"));
+//		Scene scene = new Scene(root);
+//		dialog.setScene(scene);
+//		dialog.show();
 		
-	}
+		
+		Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(LibroFormController.class.getResource("LibroForm.fxml"));
+
+        LibroFormController controller = null;
+
+        if (libro != null) // Editar
+            controller = new LibroFormController(libro); //(libro)
+        else
+            controller = new LibroFormController();
+
+        loader.setController(controller);
+        Parent root = loader.load();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("Ventana Formulario");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node) event.getSource()).getScene().getWindow());
+        stage.showAndWait();
+    }
+		
+	
 	@FXML
 	void eliminarlibro(ActionEvent event) {
 		
@@ -178,7 +206,9 @@ public class MainStageController implements Initializable {
 		dialog.setContentText("Introduce el nombre del fichero a guardar");
 		Optional<String> resultado = dialog.showAndWait();
 		if(resultado.isPresent()) {
-			System.out.println(negocio.salvar(resultado.get()));
+			negocio.guardarXML(resultado.get());
+	        System.out.println("-- Guardado XML");
+			//System.out.println(negocio.salvar(resultado.get()));
 		}
 	}
 	

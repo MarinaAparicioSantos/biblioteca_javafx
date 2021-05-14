@@ -70,8 +70,6 @@ public class LibroViewModel {
 	}
 	
 	
-	
-	
 	public Pair<String, String> getGenero() {
 		return genero.get();
 	}
@@ -110,5 +108,21 @@ public class LibroViewModel {
 	public void setPaginas(Integer paginas) {
 		this.paginas.set(paginas);
 	}
+	
+	
+	public boolean create() {
+        return negocio.nuevo(LibroConverter.toLibro(this));
+    }
+
+    public boolean update() {
+        return negocio.editar(LibroConverter.toLibro(this));
+    }
+    
+    
+    @Override
+    public String toString() {
+        return "LibroViewModel [titulo=" + titulo + ", isbn=" + isbn + ", autor=" + autor + ", genero=" + genero
+                + ", paginas=" + paginas + "]";
+    }
 
 }

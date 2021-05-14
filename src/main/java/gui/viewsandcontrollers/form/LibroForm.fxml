@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.viewsandcontrollers.form.LibroFormController">
+<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="83.0" prefWidth="609.0">
          <children>
@@ -48,10 +48,10 @@
             <Label alignment="CENTER" prefHeight="16.0" prefWidth="140.0" text="Autor" GridPane.rowIndex="2" />
             <Label alignment="CENTER" prefHeight="16.0" prefWidth="146.0" text="Genero" GridPane.rowIndex="3" />
             <Label alignment="CENTER" prefHeight="16.0" prefWidth="141.0" text="Paginas" GridPane.rowIndex="4" />
-            <TextField fx:id="titulo" onAction="#añadirTitulo" GridPane.columnIndex="1" />
-            <TextField fx:id="isbn" onAction="#añadirisbn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="autor" onAction="#añadirautor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="paginas" onAction="#añadirpaginas" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="ttitulo" onAction="#añadirTitulo" GridPane.columnIndex="1" />
+            <TextField fx:id="tisbn" onAction="#añadirisbn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="tautor" onAction="#añadirautor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="tpaginas" onAction="#añadirpaginas" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ChoiceBox fx:id="generoBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
