@@ -5,8 +5,9 @@ import negocio.model.Libro;
 
 public class LibroConverter {
 
+	
+	//Crea un libro pasandolo desde LibroViewModel.
 	public static Libro toLibro(LibroViewModel viewModel) {
-
 		return new Libro(
 				viewModel.getTitulo(), 
 				viewModel.getIsbn(), 
@@ -17,6 +18,7 @@ public class LibroConverter {
 
 	}
 	
+	//Crea un LibroViewModel pasandolo desde Libro.
 	public static LibroViewModel toLibroVM(Libro libro) {
 		return new LibroViewModel(
 				libro.getTitulo(),

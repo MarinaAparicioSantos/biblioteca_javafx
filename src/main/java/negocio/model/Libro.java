@@ -1,8 +1,5 @@
 package negocio.model;
 
-import java.util.Comparator;
-
-import javafx.beans.property.SimpleStringProperty;
 
 public class Libro {
 
@@ -110,6 +107,4 @@ public class Libro {
 
         return b;
     }
-
-
 }

@@ -27,27 +27,34 @@ import negocio.model.Libro;
 
 public class XMLService {
 
+	//Instancia de BibliotecaImpl
 	private static BibliotecaService programa = BibliotecaImpl.getInstance();
 
-	private static List<Libro> listaLibro;
+	//Lista  listadeLibros
+	private static List<Libro> listaDeLibros;
 
 	public static void guardarXML(String nombre_archivo) {
-		listaLibro = programa.getCatalogo();
+		//Obtengo el catalogo de BibliotecaImpl
+		listaDeLibros = programa.getCatalogo();
 
+		//Creo los arraylist de cada una de las propiedades.
 		ArrayList<String> titulo = new ArrayList<>();
 		ArrayList<String> isbn = new ArrayList<>();
 		ArrayList<String> genero = new ArrayList<>();
 		ArrayList<String> autor = new ArrayList<>();
 		ArrayList<String> paginas = new ArrayList<>();
 
-		for (int i = 0; i < listaLibro.size(); i++) {
-			titulo.add(listaLibro.get(i).getTitulo());
-			isbn.add(listaLibro.get(i).getIsbn());
-			genero.add(listaLibro.get(i).getGenero().toString());
-			autor.add(listaLibro.get(i).getAutor());
-			paginas.add(Integer.toString(listaLibro.get(i).getPaginas()));
+		//Recorro el arraylist y obtengo las propiedades.
+		for (int i = 0; i < listaDeLibros.size(); i++) {
+			titulo.add(listaDeLibros.get(i).getTitulo());
+			isbn.add(listaDeLibros.get(i).getIsbn());
+			genero.add(listaDeLibros.get(i).getGenero().toString());
+			autor.add(listaDeLibros.get(i).getAutor());
+			//Convierte de Integer a String
+			paginas.add(Integer.toString(listaDeLibros.get(i).getPaginas()));
 		}
 		try {
+			//Llama al metodo generate
 			generate(nombre_archivo, titulo, isbn, genero, autor, paginas);
 
 		} catch (Exception e) {
@@ -55,102 +62,34 @@ public class XMLService {
 		}
 	}
 
-	private static void generate(String nombre_archivo, ArrayList<String> titulo, ArrayList<String> isbn,
-			ArrayList<String> genero, ArrayList<String> autor, ArrayList<String> paginas) throws Exception {
-
-		if (nombre_archivo.isEmpty() || titulo.isEmpty() || isbn.isEmpty() || genero.size() != autor.size()) {
-			System.out.println("Error en los anterior arraylist");
-			return;
-		}
-
-		else {
-
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			DOMImplementation implementation = builder.getDOMImplementation();
-			Document document = implementation.createDocument(null, nombre_archivo, null);
-			document.setXmlVersion("1.0");
-
-			// Main Node
-
-			Element raiz = document.getDocumentElement();
-			// Por cada key creamos un item que contendrá key y value
-			for (int i = 0; i < titulo.size(); i++) {
-				// Item Node
-				Element itemLibro = document.createElement("libro");
-
-				// Key node
-				Element tituloNode = document.createElement("titulo");
-				Text nodeTituloValue = document.createTextNode(titulo.get(i));
-				tituloNode.appendChild(nodeTituloValue);
-
-				// Key node
-				Element isbnNode = document.createElement("isbn");
-				Text nodeIsbnValue = document.createTextNode(isbn.get(i));
-				isbnNode.appendChild(nodeIsbnValue);
-
-				// Key node
-				Element generoNode = document.createElement("genero");
-				Text nodeGeneroValue = document.createTextNode(genero.get(i));
-				generoNode.appendChild(nodeGeneroValue);
-
-				// Key node
-				Element autorNode = document.createElement("autor");
-				Text nodeAutorValue = document.createTextNode(autor.get(i));
-				autorNode.appendChild(nodeAutorValue);
-
-				// Key node
-				Element paginasNode = document.createElement("paginas");
-				Text nodePaginasValue = document.createTextNode(paginas.get(i));
-				paginasNode.appendChild(nodePaginasValue);
-
-				// append keyNode and valueNode to itemNode
-				itemLibro.appendChild(tituloNode);
-				itemLibro.appendChild(isbnNode);
-				itemLibro.appendChild(generoNode);
-				itemLibro.appendChild(autorNode);
-				itemLibro.appendChild(paginasNode);
-
-				// append itemNode to raiz
-				raiz.appendChild(itemLibro); // pegamos el elemento a la raiz "Documento"
-
-				// Generate XML
-				Source source = new DOMSource(document);
-				// Indicamos donde lo queremos almacenar
-				Result result = new StreamResult(new java.io.File(nombre_archivo + ".xml")); // nombre del archivo
-				Transformer transformer = TransformerFactory.newInstance().newTransformer();
-				transformer.transform(source, result);
-			}
-		}
-	}
-
 	public static void cargarXML(String nombre_archivo) {
 		try {
-			// Instanciar document builder
+			//Instancia de documentBuilderFactory
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			// Creo un DocumentBuilder
+			//Creo un nuevo creador de documento.
 			DocumentBuilder builder = factory.newDocumentBuilder();
 
-			// Obtengo el doc. a partir de XML
+			//Obtengo el documento a partir del nombre del xml
 			Document documento = builder.parse(new File(nombre_archivo + ".xml"));
 
-			// Se coge la etiqueta del libro del documento
+			//Creo una NodeList de todos los elementos en el orden del 
+			//documento con un nombre de etiqueta dado y están contenidos en el documento.
 			NodeList cargaXML = documento.getElementsByTagName("libro");
 
-			// Recorro la etiqueta
-
+			//Recorro la NodeList
 			for (int i = 0; i < cargaXML.getLength(); i++) {
 
-				// Cojo el nodo actual
+				//Obtengo el nodo de cada una de las propiedades.
 				Node nodo = cargaXML.item(i);
 
-				// Compruebo si el nodo es un elem.
-
+				//Si el nodo es un elemento
 				if (nodo.getNodeType() == Node.ELEMENT_NODE) {
-					// Transform a elem.
+					//Transformo el nodo en elemento.
 					Element element = (Element) nodo;
 
+					//Pongo las etiquetas a las diferentes propiedades.
 					String titulo = element.getElementsByTagName("titulo").item(0).getTextContent();
+					
 					String isbn = element.getElementsByTagName("isbn").item(0).getTextContent();
 
 					Genero genero = Genero.getGenero(element.getElementsByTagName("genero").item(0).getTextContent());
@@ -159,13 +98,104 @@ public class XMLService {
 
 					int paginas = Integer.parseInt(element.getElementsByTagName("paginas").item(0).getTextContent());
 
+					//Creo un nuevo libro
 					Libro libro = new Libro(titulo, isbn, genero, autor, paginas);
+					//Invoco el metodo nuevo de la clase BibliotecaImpl para añadir un nuevo libro.
 					programa.nuevo(libro);
 				}
 			}
-
+			//Excepciones.
 		} catch (ParserConfigurationException | SAXException | IOException ex) {
 			System.out.println("error");
 		}
 	}
+	
+	private static void generate(String nombre_archivo, ArrayList<String> titulo, ArrayList<String> isbn,
+			ArrayList<String> genero, ArrayList<String> autor, ArrayList<String> paginas) throws Exception {
+
+		
+		//Si todo esta vacio, hay error en el arraylist.
+		if (nombre_archivo.isEmpty() || titulo.isEmpty() || isbn.isEmpty() || genero.size() != autor.size()) {
+			System.out.println("Error en el arraylist.");
+			return;
+		}
+		//Si no
+		else {
+
+			//Creo una nueva instancia de DocumentBuilderFactory.
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			//Creo un nuevo creador de documento.
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			//Obtengo una instancia de DOMImplementation.
+			DOMImplementation implementation = builder.getDOMImplementation();
+			//Creo el documendo y le pongo el nombre que le haya dado el usuario.
+			Document document = implementation.createDocument(null, nombre_archivo, null);
+			//Establezco la version XML.
+			document.setXmlVersion("1.0");
+
+			//Obtento el documento y lo asocio con la raiz.
+			Element raiz = document.getDocumentElement();
+			//Recorro titulo
+			for (int i = 0; i < titulo.size(); i++) {
+				//Creo el elemento libro
+				Element itemLibro = document.createElement("libro");
+
+				//Creo el elemento titulo
+				Element tituloNode = document.createElement("titulo");
+				//Creo un nodo de texto con el texto de titulo.
+				Text nodeTituloValue = document.createTextNode(titulo.get(i));
+				//Agrego un nodo hijo al nodo existente.
+				tituloNode.appendChild(nodeTituloValue);
+
+				//Creo el elemento isbn
+				Element isbnNode = document.createElement("isbn");
+				//Creo un nodo de texto con el texto de isbn.
+				Text nodeIsbnValue = document.createTextNode(isbn.get(i));
+				//Agrego un nodo hijo al nodo existente.
+				isbnNode.appendChild(nodeIsbnValue);
+
+				//Creo el elemento genero
+				Element generoNode = document.createElement("genero");
+				//Creo un nodo de texto con el texto de genero.
+				Text nodeGeneroValue = document.createTextNode(genero.get(i));
+				//Agrego un nodo hijo al nodo existente.
+				generoNode.appendChild(nodeGeneroValue);
+
+				//Creo el elemento autor
+				Element autorNode = document.createElement("autor");
+				//Creo un nodo de texto con el texto de autor.
+				Text nodeAutorValue = document.createTextNode(autor.get(i));
+				//Agrego un nodo hijo al nodo existente.
+				autorNode.appendChild(nodeAutorValue);
+
+				//Creo el elemento paginas
+				Element paginasNode = document.createElement("paginas");
+				//Creo un nodo de texto con el texto de paginas.
+				Text nodePaginasValue = document.createTextNode(paginas.get(i));
+				//Agrego un nodo hijo al nodo existente.
+				paginasNode.appendChild(nodePaginasValue);
+
+				//Agrego los nodos hijos a las propiedades del libro.
+				itemLibro.appendChild(tituloNode);
+				itemLibro.appendChild(isbnNode);
+				itemLibro.appendChild(generoNode);
+				itemLibro.appendChild(autorNode);
+				itemLibro.appendChild(paginasNode);
+
+				//Agrego el nodo hijo a la raiz.
+				raiz.appendChild(itemLibro);
+
+				//Genero el documento XML.
+				Source source = new DOMSource(document);
+				//Indico donde lo quiero almacenar
+				Result result = new StreamResult(new java.io.File(nombre_archivo + ".xml"));
+				//Creo una instancia de Transformer
+				Transformer transformer = TransformerFactory.newInstance().newTransformer();
+				//Transformo el origen XML en un resultado
+				transformer.transform(source, result);
+			}
+		}
+	}
+
+
 }
